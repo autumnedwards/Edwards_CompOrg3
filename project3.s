@@ -1,8 +1,13 @@
 .data
+userInput: .space 1000
+invalid: .asciiz "-"
 
 .text
 main:
 #must call Subprogram A and pass the string address into it via stack
+addi $v0,8
+la $a0,userInput
+li $a1,1000
 
 
 
