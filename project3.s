@@ -43,6 +43,21 @@ li $t4, 0
 #create a variable where the bytes will be stored
 li $t5, 0
 
+parasString:
+
+#lb $t5,$t4($a1)
+add $t5, $t4, $a1 
+lb $t5, ($t5)
+
+
+
+
+
+
+
+
+bne $t4,1000 parasString
+
 
 
 #testing to see if the data was successfully passed to sub_a by printing the string 
