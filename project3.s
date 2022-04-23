@@ -25,11 +25,20 @@ jal sub_a
 #processing the string is done in Subprogram A
 sub_a:
 #must call Subprogram B and pass the substring address via stack
+lw $t1, 0($sp)
 
+#testing to see if the data was successfully passed to sub_a by printing the string 
+li $v0,1
+move $a0, $t1
+syscall
 
 
 #processing the substring is done in Subprogram B
-sub_b:
+s#ub_b:
 #decimal number or error message must be returned to Subprogram A via stack
 
-j $ra
+#j $ra
+
+#syscall for ending the program
+li $v0, 10 
+syscall 
