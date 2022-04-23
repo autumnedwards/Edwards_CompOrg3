@@ -10,6 +10,12 @@ la $a0,userInput
 li $a1,1000
 syscall
 
+#pass data through the stack (caller)
+addi $sp, $sp, -4
+sw $fp, 0($sp)
+add $fp, $sp, $zero
+addi $sp, $sp, -12
+
 jal sub_a
 
 
