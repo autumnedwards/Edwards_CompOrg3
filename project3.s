@@ -21,6 +21,10 @@ addi $sp, $sp, -4
 sw $s1, 0($sp)
 jal sub_a
 
+#syscall for ending the program
+li $v0, 10 
+syscall 
+
 
 #processing the string is done in Subprogram A
 sub_a:
@@ -29,7 +33,7 @@ lw $t1, 0($sp)
 
 #testing to see if the data was successfully passed to sub_a by printing the string 
 li $v0,1
-move $a0, $t1
+move $a0,$t1
 syscall
 
 
@@ -39,6 +43,4 @@ syscall
 
 #j $ra
 
-#syscall for ending the program
-li $v0, 10 
-syscall 
+
