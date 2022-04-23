@@ -1,6 +1,7 @@
 .data
 userInput: .space 1000
 invalid: .asciiz "-"
+substring: .space 4
 
 .text
 main:
