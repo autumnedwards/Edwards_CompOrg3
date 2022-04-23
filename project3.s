@@ -31,14 +31,24 @@ sub_a:
 #must call Subprogram B and pass the substring address via stack
 lw $t1, 0($sp)
 
+#moving the address of the string from register $t1 to $a1
+move $a1, $t1
+
 #create a counter register what will count the number of characters between the delimeter
-#if there are zero characters between the delimeter or more than 4 then the error message is printed
+li $t2,0
+#create a variable for the delimeter, semicolon is 59 in decimal
+li $t3, 59
+#$t4 is the counter for the total characters (should not be more than 1000)
+li $t4, 0
+#create a variable where the bytes will be stored
+li $t5, 0
+
 
 
 #testing to see if the data was successfully passed to sub_a by printing the string 
-li $v0,1
-move $a0,$t1
-syscall
+#li $v0,1
+#move $a0,$t1
+#syscall
 
 
 #processing the substring is done in Subprogram B
