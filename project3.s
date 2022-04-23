@@ -31,6 +31,10 @@ sub_a:
 #must call Subprogram B and pass the substring address via stack
 lw $t1, 0($sp)
 
+#create a counter register what will count the number of characters between the delimeter
+#if there are zero characters between the delimeter or more than 4 then the error message is printed
+
+
 #testing to see if the data was successfully passed to sub_a by printing the string 
 li $v0,1
 move $a0,$t1
