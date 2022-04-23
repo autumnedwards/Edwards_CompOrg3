@@ -34,7 +34,7 @@ syscall
 
 
 #processing the substring is done in Subprogram B
-s#ub_b:
+#sub_b:
 #decimal number or error message must be returned to Subprogram A via stack
 
 #j $ra
