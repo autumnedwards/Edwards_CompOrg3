@@ -6,9 +6,11 @@ invalid: .asciiz "-"
 .text
 main:
 #must call Subprogram A and pass the string address into it via stack
+
+#gets the characters to read from the user input
 addi $v0,8
 la $a0,userInput
-li $a1,1000
+li $a1,1001
 syscall
 
 #moving the userInput to $a0
