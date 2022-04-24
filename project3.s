@@ -89,9 +89,11 @@ syscall
                             lw $t6, 0($sp) #getting my input from the stack
                             addi $sp, $sp, -4 #resetting the stack 
                             
-                            
+                            li $t7,0 #register where the bytes will be stored 
+                            li $t8,0 #total character counter
                             removeleading:
-                            lb 
+                            #lb $t7,$t8($t6)
+                            
                             
 
                             
