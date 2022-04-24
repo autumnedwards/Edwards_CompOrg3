@@ -8,7 +8,7 @@
 .data
 userInput: .space 1001  #saves space for the l000 characters +1 (each character is 1 byte)
 invalid: .asciiz "-"
-subString: .space 5 #saves space for 4 characters +1 
+subString: .space 1001 #saves space for 1000 characters +1 bc the entire string could technically be a substring at this point
 
 
 .text
@@ -64,7 +64,7 @@ syscall
               add $t5, $t4, $a1 
               lb $t5, ($t5) #load character form string 
               bne $t5, $t3, again  #if the character is a semicolon jump to again
-              j createSub
+              j prep
               
             
               again:
@@ -73,7 +73,12 @@ syscall
               addi $t2, $t2,-1 #increment the subString counter 
               j parasString
               
-              createSub:
+              stop: #used to break the loop when it goes through all of the characters
+              
+              prep:
+              la $a2, subString
+              sw $?, 0($sp)
+              jal sub_b
 
 
 
