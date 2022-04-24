@@ -87,14 +87,14 @@ syscall
                             li $t7,0 #register where the bytes will be stored 
                             li $t8,0 #total character counter
                             
-                            initialCheck:
+                           checkLeading:
                                       #lb $t7,$t8($t6)
                                       add $t7, $t8, $t6
                                       lb $t7, ($t7)
-                                      beq $t7, 10, invalid #if it is the end of the string (no characters) then it is invalid
-                            checkLeading:
-                            beq $t7, 32, increment #if the byte is a space increment 
-                            beq $t7, 9, increment #if the byte is a tab increment 
+                                      beq $t7, 32, increment #if the byte is a space increment 
+                                      beq $t7, 9, increment #if the byte is a tab increment 
+                                      beq $t7, 10 invalid #if there are just blank spaces and a /n then it is invalid
+                                      j checkCharacterRange 
                                  
                                       
                             
