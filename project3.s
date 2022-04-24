@@ -8,6 +8,7 @@
 .data
 userInput: .space 1001  #saves space for the l000 characters +1 (each character is 1 byte)
 invalid: .asciiz "-"
+subString: .space 5 #saves space for 4 characters +1 
 
 
 .text
@@ -48,7 +49,7 @@ syscall
               move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
 
             
-              li $t2,0 #create a counter register what will count the number of characters between the delimeter
+              #li $t2,0 #create a counter register what will count the number of characters between the delimeter
               
               li $t3, 59 #create a variable for the delimeter, semicolon is 59 in decimal
               
@@ -63,10 +64,14 @@ syscall
               add $t5, $t4, $a1 
               lb $t5, ($t5) #load character form string 
               bne $t5, $t3, again  #if the character is a semicolon jump to again
+              j createSub
               
             
               again:
+              addi $t4,$t4,1
+              j parasString
               
+              createSub:
 
 
 
