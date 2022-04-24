@@ -47,40 +47,35 @@ syscall
 
                
               move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
-
-            
               li $t2,1000 #create an index for the subString array (could be up to 1000 characters if there is no delimeter)
-              
               li $t3, 59 #create a variable for the delimeter, semicolon is 59 in decimal
-              
               li $t4, 0 #$t4 is the counter for the total characters (should not be more than 1000)
-              
               li $t5, 0 #create a variable where the bytes will be stored
 
               parasString:
              
-              beq $t4,1000, stop #when we have read all 1000 character stop
-              #lb $t5,$t4($a1)
-              add $t5, $t4, $a1 
-              lb $t5, ($t5) #load character form string 
-              bne $t5, $t3, again  #if the character is a semicolon jump to again
-              j prep
+                        beq $t4,1000, stop #when we have read all 1000 character stop
+                        #lb $t5,$t4($a1)
+                        add $t5, $t4, $a1 
+                        lb $t5, ($t5) #load character form string 
+                        bne $t5, $t3, again  #if the character is not a semicolon jump to again
+                        j prep
               
             
               again:
-              sb $t5, subString($t2)
-              addi $t4,$t4,1 #increment the total character counter
-              addi $t2, $t2,-1 #increment the subString counter 
-              j parasString
+                        sb $t5, subString($t2)
+                        addi $t4,$t4,1 #increment the total character counter
+                        addi $t2, $t2,-1 #increment the subString counter 
+                        j parasString
               
               stop: #used to break the loop when it goes through all of the characters
               
               prep:
-              la $a2, subString
-              move $s2, $a2
-              sw $s2, 0($sp)
-              jal sub_b
-              jr $ra
+                        la $a2, subString
+                        move $s2, $a2
+                        sw $s2, 0($sp)
+                        jal sub_b
+                        jr $ra
 
 
                         sub_b: #sub_b should remove leading and trailing zeros, check to see if there are more than 4 or zero charachters, check to see if the inputs are in range/ valid, and convert valid characters to its base N equivalent
@@ -92,11 +87,18 @@ syscall
                             li $t7,0 #register where the bytes will be stored 
                             li $t8,0 #total character counter
                             
-                            removeleading:
-                            #lb $t7,$t8($t6)
-                            add $t7, $t8, $tb
-                            lb $t7, ($t7)
-                            #somehow we need to end the loop
+                            initialCheck:
+                                      #lb $t7,$t8($t6)
+                                      add $t7, $t8, $t6
+                                      lb $t7, ($t7)
+                                      beq $t7, 10, invalid #if it is the end of the string (no characters) then it is invalid
+                            checkLeading:
+                            beq $t7, 32, increment #if the byte is a space increment 
+                            beq $t7, 9, increment #if the byte is a tab increment 
+                                 
+                                      
+                            
+                            
                             
                             
                             
