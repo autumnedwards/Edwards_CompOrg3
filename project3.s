@@ -37,39 +37,42 @@ li $v0, 10
 syscall 
 
 
-#processing the string is done in Subprogram A
-          sub_a:  
+
+          sub_a:  #sub program will move through the string and if it reaches a semicolon it will push the substring to sub_b
             
-               move $s0, $ra #saving the return address
-               lw $t1, 0($sp) #getting my input from the stack
-               $sp, $sp, -4 #resetting the stack 
+              move $s0, $ra #saving the return address
+              lw $t1, 0($sp) #getting my input from the stack
+              addi $sp, $sp, -4 #resetting the stack 
 
-               #moving the address of the string from register $t1 to $a1
-               move $a1, $t1
+               
+              move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
 
-               #create a counter register what will count the number of characters between the delimeter
-              li $t2,0
-              #create a variable for the delimeter, semicolon is 59 in decimal
-              li $t3, 59
-              #$t4 is the counter for the total characters (should not be more than 1000)
-              li $t4, 0
-              #create a variable where the bytes will be stored
-              li $t5, 0
+            
+              li $t2,0 #create a counter register what will count the number of characters between the delimeter
+              
+              li $t3, 59 #create a variable for the delimeter, semicolon is 59 in decimal
+              
+              li $t4, 0 #$t4 is the counter for the total characters (should not be more than 1000)
+              
+              li $t5, 0 #create a variable where the bytes will be stored
 
               parasString:
-
+             
+              beq $t4,1000, stop #when we have read all 1000 character stop
               #lb $t5,$t4($a1)
               add $t5, $t4, $a1 
-              lb $t5, ($t5)
+              lb $t5, ($t5) #load character form string 
+              bne $t5, $t3, again  #if the character is a semicolon jump to again
+              
+            
+              again:
+              
 
 
 
 
 
-
-
-
-              bne $t4,1000 parasString
+          
 
 
 
