@@ -21,7 +21,7 @@ la $a0,userInput
 li $a1,1001
 syscall
 
-#moving the userInput to $a0
+#moving the userInput to $s1
 move $s1,$a0
 
 #pass data through the stack (caller)
@@ -77,27 +77,17 @@ syscall
               
               prep:
               la $a2, subString
-              sw $?, 0($sp)
+              move $s2, $a2
+              sw $s2, 0($sp)
               jal sub_b
+              jr $ra
 
 
+                        sub_b: #sub_b should remove leading and trailing zeros, check to see if there are more than 4 or zero charachters, check to see if the inputs are in range/ valid, and convert valid characters to its base N equivalent
+                                #decimal number or error message must be returned to Subprogram A via stack
+                            lw $t6, 0($sp)
+                            
 
-
-
-          
-
-
-
-              #testing to see if the data was successfully passed to sub_a by printing the string 
-              #li $v0,1
-              #move $a0,$t1
-              #syscall
-
-
-              #processing the substring is done in Subprogram B
-                        #sub_b:
-                            #decimal number or error message must be returned to Subprogram A via stack
-
-                            #j $ra
+                            
 
 
