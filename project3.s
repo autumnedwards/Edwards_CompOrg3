@@ -49,7 +49,7 @@ syscall
               move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
 
             
-              #li $t2,0 #create a counter register what will count the number of characters between the delimeter
+              li $t2,1000 #create an index for the subString array (could be up to 1000 characters if there is no delimeter)
               
               li $t3, 59 #create a variable for the delimeter, semicolon is 59 in decimal
               
@@ -68,7 +68,9 @@ syscall
               
             
               again:
-              addi $t4,$t4,1
+              sb $t5, subString($t2)
+              addi $t4,$t4,1 #increment the total character counter
+              addi $t2, $t2,-1 #increment the subString counter 
               j parasString
               
               createSub:
