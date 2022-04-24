@@ -91,8 +91,13 @@ syscall
                             
                             li $t7,0 #register where the bytes will be stored 
                             li $t8,0 #total character counter
+                            
                             removeleading:
                             #lb $t7,$t8($t6)
+                            add $t7, $t8, $tb
+                            lb $t7, ($t7)
+                            #somehow we need to end the loop
+                            
                             
                             
 
