@@ -1,7 +1,7 @@
 .data
-userInput: .space 1000
+userInput: .space 1001  #saves space for the l000 characters +1 (each character is 1 byte)
 invalid: .asciiz "-"
-substring: .space 4
+
 
 .text
 main:
