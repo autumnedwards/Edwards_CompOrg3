@@ -101,6 +101,10 @@ syscall
                                      j checkLeading
                            
                            checkCharacterRange:
+                           blt $t7,58, possibleInt
+                           blt $t7, 87, possibleUpper
+                           blt $t7, 119 possiblelower
+                           bge $t7, 119, invalid
                            
                                  
                                       
