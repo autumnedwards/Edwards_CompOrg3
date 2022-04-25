@@ -67,10 +67,22 @@ syscall
                         addi $t4,$t4,1 #increment the total character counter
                         addi $t2, $t2,-1 #increment the subString counter 
                         j parasString
-              
-              stop: #used to break the loop when it goes through all of the characters
-              
-              prep:
+             
+             printInvalid:
+             la $a0, invalid
+	   li $v0, 4 
+	   syscall
+             
+             printSum:
+             li $v0, 1
+             move $a0,$s3
+             syscall 
+
+             
+             
+             stop: #used to break the loop when it goes through all of the characters
+             
+             prep:
                         la $a2, subString
                         move $s2, $a2
                         sw $s2, 0($sp)
