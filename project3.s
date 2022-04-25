@@ -155,15 +155,22 @@ syscall
                            invalid:
                            
                            changeTab:
-                           li $s4, 150 #changing tab value to 150 (greater than 127)
-                           j checkTrailing 
+                                     li $s4, 150 #changing tab value to 150 (greater than 127)
+                                     j checkTrailing 
                            
                            changeNewLine:
-                           li $s4, 152 #changing the newline character to 152 (greater than 127)
+                                     li $s4, 152 #changing the newline character to 152 (greater than 127)
+                                     j checkTrailing 
                            
                            changeSpace:
-                           li $s4, 151 #changing the space character to 151 (greater than 127)
-                           
+                                     li $s4, 151 #changing the space character to 151 (greater than 127)
+                                     j checkTrailing 
+
+                           checkTrailing:
+                           beq $s4, 150, increment2 #if there is a tab increment until it reaches a number or the end
+                           beq $s4, 151, increment2 #if there is a space increment until it reaches a number or the end
+                           blt $s4, 128, invalid #if there is a character that is not a space or tab then it is invalid 
+                           beq $s4, 152, calculate #if it reaches the /n character calculate 
                            
                            
                                  
