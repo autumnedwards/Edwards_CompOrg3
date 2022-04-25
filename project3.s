@@ -117,7 +117,15 @@ syscall
                            possibleLower:
                                      bge $t7, 97, lower
                                      blt $t7, 97, invalid 
+                                     
+                           integer:
+                           addi $t7, $t7, -48
                            
+                           
+                           upper:
+                           addi $t7, $t7, -55
+                           
+                           lower:
                                  
                                       
                             
