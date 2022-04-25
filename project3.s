@@ -209,6 +209,17 @@ syscall
                                      li $t6, 32 #loading the base 
                                      li $t7, 1024 #loading 32^2
                                      li $t8, 32768 #loading 32^3
+                                     
+                                     one:
+                                     
+                                     two:
+                                     
+                                     three:
+                                     
+                                     four:
+                                     
+                                     
+                                    
                            
                            
                            
