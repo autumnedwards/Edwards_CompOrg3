@@ -88,9 +88,9 @@ syscall
                             li $t8,0 #total character counter
                             
                            checkLeading:
-                                      #lb $t7,$t8($t6)
-                                      add $t7, $t8, $t6
-                                      lb $t7, ($t7)
+                                      #lb $s4,$t8($t6)
+                                      add $s4, $t8, $t6
+                                      lb $s4, ($s4)
                                       beq $t7, 32, increment #if the byte is a space increment 
                                       beq $t7, 9, increment #if the byte is a tab increment 
                                       beq $t7, 10, invalid #if there are just blank spaces and a /n then it is invalid
