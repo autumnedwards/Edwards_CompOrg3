@@ -209,8 +209,12 @@ syscall
                                      li $t6, 32 #loading the base 
                                      li $t7, 1024 #loading 32^2
                                      li $t8, 32768 #loading 32^3
+                                     li $s5, 0 #initialize the register which will keep track of the sum
                                      
                                      one:
+                                     move $s5,$t2 #move the value stored in register t2 to the sum register 
+                                     beq $t7, 1, final #if there is only one value in the substring end
+                                     bge $t7, 2, two #if there are two or more values in the substring continue converting 
                                      
                                      two:
                                      
