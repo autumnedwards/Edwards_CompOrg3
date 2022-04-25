@@ -84,7 +84,7 @@ syscall
                             lw $t6, 0($sp) #getting my input from the stack
                             addi $sp, $sp, -4 #resetting the stack 
                             
-                            li $t7,0 #register where the bytes will be stored 
+                            li $s4,0 #register where the bytes will be stored 
                             li $t8,0 #total character counter
                             
                            checkLeading:
@@ -123,11 +123,11 @@ syscall
                                      j storeCharacter
                            
                            uppercase:
-                                     addi $t7, $t7, -55
+                                     addi $s4, $s4, -55
                                      j storeCharacter
                            
                            lowercase:
-                                     addi $t7, $t7, -87
+                                     addi $s4, $s4, -87
                                      j storeCharacter
                            checklow:
                            
