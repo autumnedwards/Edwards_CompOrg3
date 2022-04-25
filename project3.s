@@ -145,21 +145,26 @@ syscall
                                      beq $t7, 3, fourthCharacter
                            
                            firstCharacter:
-                           move $t2,$s4 #moving first character to first register
-                           j checkAgain
+                                     move $t2,$s4 #moving first character to first register
+                                     j checkAgain
      
                            secondCharacter:
-                           move $t3, $t2 #moving the first character to the second register 
-                           move $t2, $s4 #moving the second character to the first register
-                           j checkAgain
+                                     move $t3, $t2 #moving the first character to the second register 
+                                     move $t2, $s4 #moving the second character to the first register
+                                     j checkAgain
                            
                            thirdCharacter:
-                           move $t4,$t3 #moving the first character to the third register
-                           move $t3,$t2 #moving the second character to the second register
-                           move $t2, $s4 #moving the third character to teh first register 
-                           j checkAgain
+                                     move $t4,$t3 #moving the first character to the third register
+                                     move $t3,$t2 #moving the second character to the second register
+                                     move $t2, $s4 #moving the third character to the first register 
+                                     j checkAgain
                            
                            fourthCharacter:
+                                     move $t5,$t4 #moving the first character to the fourth register
+                                     move $t4,$t3 #moving the second character to the third register
+                                     move $t3, $s2 #moving the third character to the second register 
+                                     move $t2, $s4 #moving the fourth character to the first register 
+                                     j checkAgain
                            
                            
                            invalid:
@@ -177,10 +182,10 @@ syscall
                                      j checkTrailing 
 
                            checkTrailing:
-                           beq $s4, 150, increment2 #if there is a tab increment until it reaches a number or the end
-                           beq $s4, 151, increment2 #if there is a space increment until it reaches a number or the end
-                           blt $s4, 128, invalid #if there is a character that is not a space or tab then it is invalid 
-                           beq $s4, 152, calculate #if it reaches the /n character calculate 
+                                     beq $s4, 150, increment2 #if there is a tab increment until it reaches a number or the end
+                                     beq $s4, 151, increment2 #if there is a space increment until it reaches a number or the end
+                                     blt $s4, 128, invalid #if there is a character that is not a space or tab then it is invalid 
+                                     beq $s4, 152, calculate #if it reaches the /n character calculate 
                            
                            increment2:
                            
