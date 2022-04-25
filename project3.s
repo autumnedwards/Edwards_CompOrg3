@@ -103,15 +103,15 @@ syscall
                            checkCharacterRange:
                                      blt $s4,58, possibleInt
                                      blt $s4, 87, possibleUpper
-                                     blt $t7, 119 possibleLower
-                                     bge $t7, 119, invalid
+                                     blt $s4, 119 possibleLower
+                                     bge $s4, 119, invalid
                            
                            possibleInt:
-                                     bge $t7, 48, integer
-                                     blt $t7, 48, checklow
+                                     bge $s4, 48, integer
+                                     blt $s4, 48, checklow
                            
                            possibleUpper:
-                                     bge $t7, 65, uppercase
+                                     bge $s4, 65, uppercase
                                      blt $t7, 65, invalid
                            
                            possibleLower:
