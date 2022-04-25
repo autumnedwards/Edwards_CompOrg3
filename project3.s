@@ -145,8 +145,13 @@ syscall
                                      beq $t7, 3, fourthCharacter
                            
                            firstCharacter:
-                           
+                           move $t2,$s4 #moving first character to first register
+                           j checkAgain
+     
                            secondCharacter:
+                           move $t3, $t2 #moving the first character to the second register 
+                           move $t4, $s4 #moving the second character to the first register
+                           j checkAgain
                            
                            thirdCharacter:
                            
@@ -171,6 +176,9 @@ syscall
                            beq $s4, 151, increment2 #if there is a space increment until it reaches a number or the end
                            blt $s4, 128, invalid #if there is a character that is not a space or tab then it is invalid 
                            beq $s4, 152, calculate #if it reaches the /n character calculate 
+                           
+                           increment2:
+                           
                            
                            
                                  
