@@ -173,8 +173,7 @@ syscall
                                      lb $s4, ($s4)
                                      j checkCharacterRange
                            
-                           
-                           invalid:
+                    
                            
                            changeTab:
                                      li $s4, 150 #changing tab value to 150 (greater than 127)
@@ -198,7 +197,15 @@ syscall
                                      addi $t8, $t8, 1 #increments character counter
                                      add $s4, $t8, $t6
                                      lb $s4, ($s4)
+                                     beq, $s4, 9, changeTab #if tab, convert it to 150
+                                     beq, $s4, 32, changeSpace #if space, convert it to 151
+                                     beq, $s4, 10, changeNewLine #if /n, convert it to 152
+                                     j checkTrailing
+                                     
+                                     
+                           invalid:
                            
+                           calculate:
                            
                            
                            
