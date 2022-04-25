@@ -171,6 +171,7 @@ syscall
                                      addi $t8, $t8, 1 #increments character counter
                                      add $s4, $t8, $t6
                                      lb $s4, ($s4)
+                                     j checkCharacterRange
                            
                            
                            invalid:
@@ -194,6 +195,10 @@ syscall
                                      beq $s4, 152, calculate #if it reaches the /n character calculate 
                            
                            increment2:
+                                     addi $t8, $t8, 1 #increments character counter
+                                     add $s4, $t8, $t6
+                                     lb $s4, ($s4)
+                           
                            
                            
                            
