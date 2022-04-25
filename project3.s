@@ -133,9 +133,18 @@ syscall
                            checklow:
                            
                            storeCharacter:
-                           beq $t7, 0, firstCharacter
-                           beq $t7, 1, secondCharacter
-                           beq $t7, 2, thirdCharacter
+                                     beq $t7, 0, firstCharacter
+                                     beq $t7, 1, secondCharacter
+                                     beq $t7, 2, thirdCharacter
+                                     beq $t7, 3, fourthCharacter
+                           
+                           firstCharacter:
+                           
+                           secondCharacter:
+                           
+                           thirdCharacter:
+                           
+                           fourthCharacter:
                            
                            
                            
