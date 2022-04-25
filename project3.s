@@ -112,14 +112,14 @@ syscall
                            
                            possibleUpper:
                                      bge $s4, 65, uppercase
-                                     blt $t7, 65, invalid
+                                     blt $s4, 65, invalid
                            
                            possibleLower:
-                                     bge $t7, 97, lowercase
-                                     blt $t7, 97, invalid 
+                                     bge $s4, 97, lowercase
+                                     blt $s4, 97, invalid 
                                      
                            integer:
-                                     addi $t7, $t7, -48
+                                     addi $s4, $s4, -48
                                      j storeCharacter
                            
                            uppercase:
