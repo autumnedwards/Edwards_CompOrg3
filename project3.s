@@ -111,21 +111,28 @@ syscall
                                      blt $t7, 48, checklow
                            
                            possibleUpper:
-                                     bge $t7, 65, upper
+                                     bge $t7, 65, uppercase
                                      blt $t7, 65, invalid
                            
                            possibleLower:
-                                     bge $t7, 97, lower
+                                     bge $t7, 97, lowercase
                                      blt $t7, 97, invalid 
                                      
                            integer:
-                           addi $t7, $t7, -48
+                                     addi $t7, $t7, -48
+                                     j storeCharacter
+                           
+                           uppercase:
+                                     addi $t7, $t7, -55
+                                     j storeCharacter
+                           
+                           lowercase:
+                                     addi $t7, $t7, -87
+                                     j storeCharacter
+                           checklow:
                            
                            
-                           upper:
-                           addi $t7, $t7, -55
                            
-                           lower:
                                  
                                       
                             
