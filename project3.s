@@ -7,7 +7,7 @@
 
 .data
 userInput: .space 1001  #saves space for the l000 characters +1 (each character is 1 byte)
-invalid: .asciiz "-"
+invalidInput: .asciiz "-"
 subString: .space 1001 #saves space for 1000 characters +1 bc the entire string could technically be a substring at this point
 
 
@@ -70,7 +70,7 @@ syscall
                         j parasString
              
              printInvalid:
-             la $a0, invalid
+             la $a0, invalidInput
 	     li $v0, 4 
 	     syscall
 	     j parasString
