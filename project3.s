@@ -150,12 +150,17 @@ syscall
      
                            secondCharacter:
                            move $t3, $t2 #moving the first character to the second register 
-                           move $t4, $s4 #moving the second character to the first register
+                           move $t2, $s4 #moving the second character to the first register
                            j checkAgain
                            
                            thirdCharacter:
+                           move $t4,$t3 #moving the first character to the third register
+                           move $t3,$t2 #moving the second character to the second register
+                           move $t2, $s4 #moving the third character to teh first register 
+                           j checkAgain
                            
                            fourthCharacter:
+                           
                            
                            invalid:
                            
