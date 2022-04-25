@@ -151,7 +151,7 @@ syscall
                            checklow: #checking for spaces or tabs that are in between the substring inputs 
                                      blt $s4, 9, invalid
                                      beq $s4, 9, changeTab
-                                     beq $s4, 10, changeNewline
+                                     beq $s4, 10, changeNewLine
                                      beq $s4, 32, changeSpace
                                      bgt $s4, 10, invalid
                            
