@@ -155,10 +155,14 @@ syscall
                            invalid:
                            
                            changeTab:
+                           li $s4, 150 #changing tab value to 150 (greater than 127)
+                           j checkTrailing 
                            
                            changeNewLine:
+                           li $s4, 152 #changing the newline character to 152 (greater than 127)
                            
                            changeSpace:
+                           li $s4, 151 #changing the space character to 151 (greater than 127)
                            
                            
                            
