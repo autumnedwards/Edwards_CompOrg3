@@ -75,12 +75,14 @@ syscall
                         move $s2, $a2
                         sw $s2, 0($sp)
                         jal sub_b
+                        beq $s3, -1, printInvalid
+                        bge $s3, 0, printSum
                         jr $ra
 
 
                         sub_b: #sub_b should remove leading and trailing zeros, check to see if there are more than 4 or zero charachters, check to see if the inputs are in range/ valid, and convert valid characters to its base N equivalent
                                #decimal number or error message must be returned to Subprogram A via stack
-                            move $s3, $ra #saving the return address
+                            #move $s3, $ra #saving the return address
                             lw $t6, 0($sp) #getting my input from the stack
                             addi $sp, $sp, -4 #resetting the stack 
                             
@@ -237,12 +239,14 @@ syscall
                                                #sends sum back to sub_a
                                                move $s3, $s5 #$s3 is the return address 
                                                sw $s3, 0($sp)
+                                               jr $ra
                                                
                                                
                                     invalid:
                                               #sends invalid argument back to sub_a
                                               li $s3, -1 #$s3 is the return address 
                                               sw $s3, 0($sp)
+                                              jr $ra
                                      
                                     
                            
