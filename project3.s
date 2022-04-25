@@ -86,6 +86,7 @@ syscall
                             
                             li $s4,0 #register where the bytes will be stored 
                             li $t8,0 #total character counter
+                            li $t7, 0 #counter for the 4 character array after the leading and trailing blank spaces are removed
                             
                            checkLeading:
                                       #lb $s4,$t8($t6)
@@ -130,6 +131,11 @@ syscall
                                      addi $s4, $s4, -87
                                      j storeCharacter
                            checklow:
+                           
+                           storeCharacter:
+                           beq $t7, 0, firstCharacter
+                           beq $t7, 1, secondCharacter
+                           beq $t7, 2, thirdCharacter
                            
                            
                            
