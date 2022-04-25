@@ -107,12 +107,16 @@ syscall
                                      bge $t7, 119, invalid
                            
                            possibleInt:
-                           bge $t7, 48, integer
-                           blt $t7, 48, checklow
+                                     bge $t7, 48, integer
+                                     blt $t7, 48, checklow
                            
                            possibleUpper:
+                                     bge $t7, 65, upper
+                                     blt $t7, 65, invalid
                            
                            possibleLower:
+                                     bge $t7, 97, lower
+                                     blt $t7, 97, invalid 
                            
                                  
                                       
