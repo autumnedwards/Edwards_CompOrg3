@@ -51,6 +51,7 @@ syscall
               li $t3, 59 #create a variable for the delimeter, semicolon is 59 in decimal
               li $t4, 0 #$t4 is the counter for the total characters (should not be more than 1000)
               li $t5, 0 #create a variable where the bytes will be stored
+	      #li $s6, 0# create a counter for the substring 
 
               parasString:
              
@@ -65,18 +66,20 @@ syscall
               again:
                         sb $t5, subString($t2)
                         addi $t4,$t4,1 #increment the total character counter
-                        addi $t2, $t2,-1 #increment the subString counter 
+                        addi $t2, $t2,-1 #increment the subString address counter
                         j parasString
              
              printInvalid:
              la $a0, invalid
-	   li $v0, 4 
-	   syscall
+	     li $v0, 4 
+	     syscall
+	     j parasString
              
              printSum:
              li $v0, 1
              move $a0,$s3
              syscall 
+	     j parasString
 
              
              
