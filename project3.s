@@ -146,25 +146,31 @@ syscall
                            
                            firstCharacter:
                                      move $t2,$s4 #moving first character to first register
-                                     j checkAgain
+                                     j checkNextChar
      
                            secondCharacter:
                                      move $t3, $t2 #moving the first character to the second register 
                                      move $t2, $s4 #moving the second character to the first register
-                                     j checkAgain
+                                     j checkNextChar
                            
                            thirdCharacter:
                                      move $t4,$t3 #moving the first character to the third register
                                      move $t3,$t2 #moving the second character to the second register
                                      move $t2, $s4 #moving the third character to the first register 
-                                     j checkAgain
+                                     j checkNextChar
                            
                            fourthCharacter:
                                      move $t5,$t4 #moving the first character to the fourth register
                                      move $t4,$t3 #moving the second character to the third register
                                      move $t3, $s2 #moving the third character to the second register 
                                      move $t2, $s4 #moving the fourth character to the first register 
-                                     j checkAgain
+                                     j checkNextChar
+                           checkNextChar:
+                                     bgt $t7, 3, checkTrailing
+                                     addi $t7, $t7, 1 #increments the counter 
+                                     addi $t8, $t8, 1 #increments character counter
+                                     add $s4, $t8, $t6
+                                     lb $s4, ($s4)
                            
                            
                            invalid:
