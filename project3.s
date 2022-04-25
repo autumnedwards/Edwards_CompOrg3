@@ -130,6 +130,7 @@ syscall
                            lowercase:
                                      addi $s4, $s4, -87
                                      j storeCharacter
+                                     
                            checklow: #checking for spaces or tabs that are in between the substring inputs 
                                      blt $s4, 9, invalid
                                      beq $s4, 9, changeTab
@@ -150,6 +151,14 @@ syscall
                            thirdCharacter:
                            
                            fourthCharacter:
+                           
+                           invalid:
+                           
+                           changeTab:
+                           
+                           changeNewLine:
+                           
+                           changeSpace:
                            
                            
                            
