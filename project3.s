@@ -235,10 +235,14 @@ syscall
                                      
                                      final:
                                                #sends sum back to sub_a
-                                               move $a2, $s5 #loads the register 
+                                               move $s3, $s5 #$s3 is the return address 
+                                               sw $s3, 0($sp)
+                                               
                                                
                                     invalid:
                                               #sends invalid argument back to sub_a
+                                              li $s3, -1 #$s3 is the return address 
+                                              sw $s3, 0($sp)
                                      
                                     
                            
