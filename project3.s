@@ -141,7 +141,7 @@ syscall
                             
                            checkLeading:
                                       #lb $s4,$t8($t6)
-                                      add $s4, $t8, $t6
+                                      #add $s4, $t8, $t6
                                       lb $s4, 0($t6)
                                       beq $s4, 32, increment #if the byte is a space increment 
                                       beq $s4, 9, increment #if the byte is a tab increment 
@@ -279,13 +279,19 @@ syscall
                                                mflo $t1
                                                add $s5, $s5, $t1
                                                beq $t7, 3, final #if there are only three values in the substring end
-                                               bge $t7, 3, four #if there are three or more values in the substring continue converting 
+                                               bge $t7, 4, four #if there are three or more values in the substring continue converting 
                                      
                                      four:
                                                mult $t5, $t8 #multiplying value by 32^3
                                                mflo $t1
                                                add $s5, $s5, $t1
 					       j final
+					       
+				 invalid:
+                                              #sends invalid argument back to sub_a
+                                              li $s3, -1 #$s3 is the return address 
+                                              sw $s3, 0($sp)
+                                              jr $ra
                                      
                                      final:
                                                #sends sum back to sub_a
@@ -294,11 +300,7 @@ syscall
                                                jr $ra
                                                
                                                
-                                    invalid:
-                                              #sends invalid argument back to sub_a
-                                              li $s3, -1 #$s3 is the return address 
-                                              sw $s3, 0($sp)
-                                              jr $ra
+                                    
                                      
                                     
                            
