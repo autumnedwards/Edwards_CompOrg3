@@ -122,7 +122,7 @@ syscall
                      j printComma
          
          printComma:
-                     la $a0, invalidInput
+                     la $a0, comma
                      li $v0, 4 
                      syscall 
                      j parasString
