@@ -116,6 +116,15 @@ syscall
                      j printComma
          
          printComma:
+	 	     la $a0, invalidInput
+                     li $v0, 4 
+                     syscall 
+                     j parasString
+
+
+
+         done:
+		move $ra, $s0
 			
 			jr $ra
 
