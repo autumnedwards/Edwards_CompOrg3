@@ -105,7 +105,8 @@ syscall
                      la $a0, invalidInput
                      li $v0, 4 
                      syscall 
-
+		beq $s8, 5,done
+                    li $t2, 0
                      beq $t1,10, done
                      beq $t4,1000, done
                      j printComma
