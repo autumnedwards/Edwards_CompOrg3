@@ -275,7 +275,7 @@ syscall
                                                bge $t7, 3, three #if there are three or more values in the substring continue converting 
 
                                      three:
-                                               mult $t4, $t7 #multiplying value by 32^2
+                                               mult $t4, $t9 #multiplying value by 32^2
                                                mflo $t1
                                                add $s5, $s5, $t1
                                                beq $t7, 3, final #if there are only three values in the substring end
