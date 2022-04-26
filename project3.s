@@ -259,9 +259,9 @@ syscall
                 
                            
                            calculate:
-                                     li $t6, 30 #loading the base 
-                                     li $t9, 900 #loading 32^2
-                                     li $t8, 27000 #loading 32^3
+                                     li $t6, 32 #loading the base 
+                                     li $t9, 1024 #loading 32^2
+                                     li $t8, 32768 #loading 32^3
                                      li $s5, 0 #initialize the register which will keep track of the sum
                                      
                                      one:
