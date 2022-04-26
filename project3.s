@@ -25,11 +25,7 @@ syscall
 #moving the userInput to $s1
 move $s1,$a0
 
-#pass data through the stack (caller)
-#frame pointer isn't needed b/c we only have one value to store but it is good practice
-#addi $sp, $sp, -4
-#sw $fp, 0($sp)
-#add $fp, $sp, $zero
+
 addi $sp, $sp, -4
 sw $s1, 0($sp)
 jal sub_a
@@ -38,85 +34,89 @@ jal sub_a
 li $v0, 10 
 syscall 
 
-
-
-          sub_a:  #sub program will move through the string and if it reaches a semicolon it will push the substring to sub_b
+    sub_a:  #sub program will move through the string and if it reaches a semicolon it will push the substring to sub_b
             
               move $s0, $ra
-	      lw $t1, 0($sp) #getting my input from the stack
-              addi $sp, $sp, -16 #resetting the stack
-	      sw $ra, 4($sp)
-
-               
-              #move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
-              li $t2,1000 #create an index for the subString array (could be up to 1000 characters if there is no delimeter)
+              lw $t1, 0($sp) #getting my input from the stack
+              addi $sp, $sp, -16 #resetting the stack 
+              sw $ra, 4($sp) #storing the return address in the stack
+			   #move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
+              li $t2,0 #create an index for the subString array (could be up to 1000 characters if there is no delimeter)
               li $t3, 59 #create a variable for the delimeter, semicolon is 59 in decimal
               li $t4, 0 #$t4 is the counter for the total characters (should not be more than 1000)
               li $t5, 0 #create a variable where the bytes will be stored
-	      li $s6, 0# create a counter for the substring 
+	          li $s6, 0# create a counter for the substring 
 
               parasString:
              
                         beq $t4,1000, stop #when we have read all 1000 character stop
+                        # beq $t4,10, stop #when it reaches the end (/n) stop
                         #lb $t5,$t4($a1)
-                        #add $t5, $t4, $a1 
+                        # add $t5, $t4, $t1 
                         lb $t5, 0($t1) #load character form string 
-			beq $t5, 10, stop
-                        bne $t5, $t3, again  #if the character is not a semicolon jump to again
+                        beq $t5,10, stop
+                        #check the 1st bit of the string
+                        #li $v0, 1
+                        #move $a0,$t5
+                        #syscall
+			
+						bne $t5, $t3, again  #if the character is not a semicolon jump to again
                         j prep
               
             
               again:
                         sb $t5, subString($t2)
-                        addi $t1,$t1,1 #increment the total character counter
-                        addi $t2, $t2,-1 #increment the subString address counter
+                        #check subString 
+                        #lb $s7, subString($t2)
+                        #li $v0, 1
+                        #move $a0,$s7
+                        #syscall
+                        addi $t2, $t2,1 #increment the subString address counter
+                        addi $t1, $t1, 1
+                        #addi $s6, $s6, 1 #keeping track of where er are
                         j parasString
-            
 
-             
-             
-             stop: #used to break the loop when it goes through all of the characters
+                        stop: #used to break the loop when it goes through all of the characters
              
              prep:
-                        li $s7,10
-			sb $s7, subString($t2)
-			la $a2, subString
+                        li $s7, 10
+                        sb $s7, subString($t2) #storing the newLine character at the end of each substring 
+                        la $a2, subString
                         move $s2, $a2
                         sw $s2, 0($sp)
-			sw $t1, 8($sp)
+                        sw $t1, 8($sp)
                         sw $t4, 12($sp)
                         jal sub_b
-			lw $t1,8($sp)
+                        lw $t1,8($sp)
                         lw $ra,4($sp)
                         lw $t4,12($sp)
-			addi $sp, $sp, 16
-			
-	 return:
-                        beq $s3, -1, printInvalid
-                        bge $s3, 0, printSum
-                        
-			
-			
-	printInvalid:
+                        addi $sp, $sp, 16
+			return:
+                     beq $s3,-1,printInvalid
+                     bge $s3,0, printSum
+
+         
+         
+         printInvalid:
                      la $a0, invalidInput
                      li $v0, 4 
                      syscall 
 
                      beq $t1,10, done
-                     beq $t4,1000, done	
-		     j printComma
+                     beq $t4,1000, done
+                     j printComma
 
          printSum:
                      li $v0, 1
                      move $a0,$s3
                      syscall
-		     j parasString
+                     j parasString
                      beq $t1,10, done
                      beq $t4,1000, done
                      j printComma
          
          printComma:
-	 	     la $a0, invalidInput
+                     la $a0, invalidInput
                      li $v0, 4 
                      syscall 
                      j parasString
@@ -124,13 +124,11 @@ syscall
 
 
          done:
-		move $ra, $s0
-			
-			jr $ra
-
-
-                        sub_b: #sub_b should remove leading and trailing zeros, check to see if there are more than 4 or zero charachters, check to see if the inputs are in range/ valid, and convert valid characters to its base N equivalent
-                               #decimal number or error message must be returned to Subprogram A via stack
+						move $ra, $s0
+                        jr $ra
+                     
+                     sub_b: #sub_b should remove leading and trailing zeros, check to see if there are more than 4 or zero charachters, check to see if the inputs are in range/ valid, and convert valid characters to its base N equivalent
+                            #decimal number or error message must be returned to Subprogram A via stack
                             #move $s3, $ra #saving the return address
                             lw $t6, 0($sp) #getting my input from the stack
                             addi $sp, $sp, -4 #resetting the stack 
@@ -138,11 +136,16 @@ syscall
                             li $s4,0 #register where the bytes will be stored 
                             li $t8,0 #total character counter
                             li $t7, 0 #counter for the 4 character array after the leading and trailing blank spaces are removed
-                            
-                           checkLeading:
+
+                            checkLeading:
                                       #lb $s4,$t8($t6)
                                       #add $s4, $t8, $t6
                                       lb $s4, 0($t6)
+                                      #check to see if the string was passed to sub_b
+                                      #li $v0, 1
+                                      #move $a0,$s4
+                                      #syscall
+
                                       beq $s4, 32, increment #if the byte is a space increment 
                                       beq $s4, 9, increment #if the byte is a tab increment 
                                       beq $s4, 10, invalid #if there are just blank spaces and a /n then it is invalid
@@ -150,17 +153,17 @@ syscall
                                       j checkCharacterRange 
                            increment:
                                      addi $t8, $t8, 1 #iterating the checkLeading counter 
-				     addi $t6, $t6, 1
+                                     addi $t6, $t6, 1
                                      j checkLeading
                            
                            checkCharacterRange:
-			   	     beq $s4, 10, calculate
+                                    beq $s4, 10, calculate
                                      blt $s4,58, possibleInt
                                      blt $s4, 87, possibleUpper
                                      blt $s4, 119 possibleLower
                                      bge $s4, 119, invalid
-                           
-                           possibleInt:
+
+                                possibleInt:
                                      bge $s4, 48, integer
                                      blt $s4, 48, checklow
                            
@@ -185,10 +188,11 @@ syscall
                                      j storeCharacter
                                      
                            checklow: #checking for spaces or tabs that are in between the substring inputs 
-                                     blt $s4, 9, invalid
+                                     
                                      beq $s4, 9, changeTab
                                      beq $s4, 10, changeNewLine
                                      beq $s4, 32, changeSpace
+                                     blt $s4, 9, invalid
                                      bgt $s4, 10, invalid
                            
                            storeCharacter:
@@ -222,7 +226,6 @@ syscall
                                      bgt $t7, 3, checkTrailing
                                      addi $t7, $t7, 1 #increments the counter 
                                      addi $t6, $t6, 1 #increments character counter
-                                     
                                      lb $s4, 0($t6)
                                      j checkCharacterRange
                            
@@ -248,7 +251,6 @@ syscall
                            
                            increment2:
                                      addi $t6, $t6, 1 #increments character counter
-                           
                                      lb $s4, 0($t6)
                                      beq, $s4, 9, changeTab #if tab, convert it to 150
                                      beq, $s4, 32, changeSpace #if space, convert it to 151
@@ -257,9 +259,9 @@ syscall
                 
                            
                            calculate:
-                                     li $t6, 32 #loading the base 
-                                     li $t7, 1024 #loading 32^2
-                                     li $t8, 32768 #loading 32^3
+                                     li $t6, 30 #loading the base 
+                                     li $t9, 900 #loading 32^2
+                                     li $t8, 27000 #loading 32^3
                                      li $s5, 0 #initialize the register which will keep track of the sum
                                      
                                      one:
@@ -285,9 +287,10 @@ syscall
                                                mult $t5, $t8 #multiplying value by 32^3
                                                mflo $t1
                                                add $s5, $s5, $t1
-					       j final
-					       
-				 invalid:
+                                               j final
+
+
+                                    invalid:
                                               #sends invalid argument back to sub_a
                                               li $s3, -1 #$s3 is the return address 
                                               sw $s3, 0($sp)
@@ -296,24 +299,16 @@ syscall
                                      final:
                                                #sends sum back to sub_a
                                                move $s3, $s5 #$s3 is the return address 
+                                               
+                                               #check the sum 
+                                            #    li $v0, 1
+                                            #    move $a0,$s3
+                                            #    syscall
                                                sw $s3, 0($sp)
                                                jr $ra
                                                
                                                
-                                    
-                                     
-                                    
-                           
-                           
-                           
-                                 
-                                      
-                            
-                            
-                            
-                            
-                            
 
-                            
+
 
 
