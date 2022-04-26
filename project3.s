@@ -142,7 +142,7 @@ syscall
                            checkLeading:
                                       #lb $s4,$t8($t6)
                                       add $s4, $t8, $t6
-                                      lb $s4, ($s4)
+                                      lb $s4, 0($t6)
                                       beq $s4, 32, increment #if the byte is a space increment 
                                       beq $s4, 9, increment #if the byte is a tab increment 
                                       beq $s4, 10, invalid #if there are just blank spaces and a /n then it is invalid
@@ -150,9 +150,11 @@ syscall
                                       j checkCharacterRange 
                            increment:
                                      addi $t8, $t8, 1 #iterating the checkLeading counter 
+				     addi $t6, $t6, 1
                                      j checkLeading
                            
                            checkCharacterRange:
+			   	     beq $s4, 10, calculate
                                      blt $s4,58, possibleInt
                                      blt $s4, 87, possibleUpper
                                      blt $s4, 119 possibleLower
@@ -213,15 +215,15 @@ syscall
                            fourthCharacter:
                                      move $t5,$t4 #moving the first character to the fourth register
                                      move $t4,$t3 #moving the second character to the third register
-                                     move $t3, $s2 #moving the third character to the second register 
+                                     move $t3, $t2 #moving the third character to the second register 
                                      move $t2, $s4 #moving the fourth character to the first register 
                                      j checkNextChar
                            checkNextChar:
                                      bgt $t7, 3, checkTrailing
                                      addi $t7, $t7, 1 #increments the counter 
-                                     addi $t8, $t8, 1 #increments character counter
-                                     add $s4, $t8, $t6
-                                     lb $s4, ($s4)
+                                     addi $t6, $t6, 1 #increments character counter
+                                     
+                                     lb $s4, 0($t6)
                                      j checkCharacterRange
                            
                     
@@ -245,9 +247,9 @@ syscall
                                      beq $s4, 152, calculate #if it reaches the /n character calculate 
                            
                            increment2:
-                                     addi $t8, $t8, 1 #increments character counter
-                                     add $s4, $t8, $t6
-                                     lb $s4, ($s4)
+                                     addi $t6, $t6, 1 #increments character counter
+                           
+                                     lb $s4, 0($t6)
                                      beq, $s4, 9, changeTab #if tab, convert it to 150
                                      beq, $s4, 32, changeSpace #if space, convert it to 151
                                      beq, $s4, 10, changeNewLine #if /n, convert it to 152
