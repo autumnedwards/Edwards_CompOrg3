@@ -59,36 +59,28 @@ syscall
              
                         beq $t4,1000, stop #when we have read all 1000 character stop
                         #lb $t5,$t4($a1)
-                        add $t5, $t4, $a1 
+                        #add $t5, $t4, $a1 
                         lb $t5, 0($t1) #load character form string 
+			beq $t5, 10, stop
                         bne $t5, $t3, again  #if the character is not a semicolon jump to again
                         j prep
               
             
               again:
                         sb $t5, subString($t2)
-                        addi $t4,$t4,1 #increment the total character counter
+                        addi $t1,$t1,1 #increment the total character counter
                         addi $t2, $t2,-1 #increment the subString address counter
                         j parasString
-             
-             printInvalid:
-             la $a0, invalidInput
-	     li $v0, 4 
-	     syscall
-	     j parasString
-             
-             printSum:
-             li $v0, 1
-             move $a0,$s3
-             syscall 
-	     j parasString
+            
 
              
              
              stop: #used to break the loop when it goes through all of the characters
              
              prep:
-                        la $a2, subString
+                        li $s7,10
+			sb $s7, subString($t2)
+			la $a2, subString
                         move $s2, $a2
                         sw $s2, 0($sp)
                         jal sub_b
