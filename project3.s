@@ -89,11 +89,23 @@ syscall
 			lw $t1,8($sp)
                         lw $ra,4($sp)
                         lw $t4,12($sp)
+			addi $sp, $sp, 16
 			
 	 return:
                         beq $s3, -1, printInvalid
                         bge $s3, 0, printSum
-                        jr $ra
+                        
+			
+			
+	printInvalid:
+                     la $a0, invalidInput
+                     li $v0, 4 
+                     syscall 
+
+                     beq $t1,10, done
+                     beq $t4,1000, done	
+			
+			jr $ra
 
 
                         sub_b: #sub_b should remove leading and trailing zeros, check to see if there are more than 4 or zero charachters, check to see if the inputs are in range/ valid, and convert valid characters to its base N equivalent
