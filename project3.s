@@ -110,6 +110,12 @@ syscall
                      li $v0, 1
                      move $a0,$s3
                      syscall
+		     j parasString
+                     beq $t1,10, done
+                     beq $t4,1000, done
+                     j printComma
+         
+         printComma:
 			
 			jr $ra
 
