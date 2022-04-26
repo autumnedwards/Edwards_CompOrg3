@@ -104,6 +104,12 @@ syscall
 
                      beq $t1,10, done
                      beq $t4,1000, done	
+		     j printComma
+
+         printSum:
+                     li $v0, 1
+                     move $a0,$s3
+                     syscall
 			
 			jr $ra
 
