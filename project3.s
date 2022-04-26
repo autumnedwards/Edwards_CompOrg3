@@ -83,7 +83,14 @@ syscall
 			la $a2, subString
                         move $s2, $a2
                         sw $s2, 0($sp)
+			sw $t1, 8($sp)
+                        sw $t4, 12($sp)
                         jal sub_b
+			lw $t1,8($sp)
+                        lw $ra,4($sp)
+                        lw $t4,12($sp)
+			
+	 return:
                         beq $s3, -1, printInvalid
                         bge $s3, 0, printSum
                         jr $ra
