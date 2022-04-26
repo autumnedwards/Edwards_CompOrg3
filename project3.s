@@ -9,6 +9,7 @@
 userInput: .space 1001  #saves space for the l000 characters +1 (each character is 1 byte)
 invalidInput: .asciiz "-"
 subString: .space 1001 #saves space for 1000 characters +1 bc the entire string could technically be a substring at this point
+comma: .asciiz ","
 
 
 .text
@@ -41,9 +42,8 @@ syscall
 
           sub_a:  #sub program will move through the string and if it reaches a semicolon it will push the substring to sub_b
             
-              move $s0, $ra #saving the return address
               lw $t1, 0($sp) #getting my input from the stack
-              addi $sp, $sp, -4 #resetting the stack 
+              addi $sp, $sp, -16 #resetting the stack
 
                
               move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
