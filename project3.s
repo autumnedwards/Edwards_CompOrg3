@@ -54,7 +54,7 @@ syscall
                         #lb $t5,$t4($a1)
                         # add $t5, $t4, $t1 
                         lb $t5, 0($t1) #load character form string 
-                        beq $t5,10, stop
+                        beq $t5,10, newStatus
                         #check the 1st bit of the string
                         #li $v0, 1
                         #move $a0,$t5
@@ -76,9 +76,13 @@ syscall
                         #addi $s6, $s6, 1 #keeping track of where er are
                         j parasString
 
+                newStatus:
+                    li $s8, 5
+
                         stop: #used to break the loop when it goes through all of the characters
              
              prep:
+                        addi $t1, $t1, 1
                         li $s7, 10
                         sb $s7, subString($t2) #storing the newLine character at the end of each substring 
                         la $a2, subString
@@ -87,10 +91,10 @@ syscall
                         sw $t1, 8($sp)
                         sw $t4, 12($sp)
                         jal sub_b
-                        lw $t1,8($sp)
-                        lw $ra,4($sp)
-                        lw $t4,12($sp)
-                        addi $sp, $sp, 16
+                        # lw $t1,8($sp)
+                        # lw $ra,4($sp)
+                        # lw $t4,12($sp)
+                        # addi $sp, $sp, 16
 			return:
                      beq $s3,-1,printInvalid
                      bge $s3,0, printSum
@@ -110,9 +114,10 @@ syscall
                      li $v0, 1
                      move $a0,$s3
                      syscall
-                     j out
+                     li $t2, 0
                      beq $t1,10, done
                      beq $t4,1000, done
+                     beq $s8, 5,done
                      j printComma
          
          printComma:
@@ -120,13 +125,12 @@ syscall
                      li $v0, 4 
                      syscall 
                      j parasString
-		     
-	out:
-		     li $v0, 1
-                     move $a0,$s3
-                     syscall
-
-
+        out:
+                    lw $t1,8($sp)
+                    lw $ra,4($sp)
+                    lw $t4,12($sp)
+                    addi $sp, $sp, 16
+                    j parasString
 
 
          done:
@@ -265,9 +269,9 @@ syscall
                 
                            
                            calculate:
-                                     li $t6, 32 #loading the base 
-                                     li $t9, 1024 #loading 32^2
-                                     li $t8, 32768 #loading 32^3
+                                     li $t6, 30 #loading the base 
+                                     li $t9, 900 #loading 32^2
+                                     li $t8, 27000 #loading 32^3
                                      li $s5, 0 #initialize the register which will keep track of the sum
                                      
                                      one:
