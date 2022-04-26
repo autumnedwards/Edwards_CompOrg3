@@ -42,23 +42,25 @@ syscall
 
           sub_a:  #sub program will move through the string and if it reaches a semicolon it will push the substring to sub_b
             
-              lw $t1, 0($sp) #getting my input from the stack
+              move $s0, $ra
+	      lw $t1, 0($sp) #getting my input from the stack
               addi $sp, $sp, -16 #resetting the stack
+	      sw $ra, 4($sp)
 
                
-              move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
+              #move $a1, $t1 #moving the address of the string from register $t1 to $a1 (argument register)
               li $t2,1000 #create an index for the subString array (could be up to 1000 characters if there is no delimeter)
               li $t3, 59 #create a variable for the delimeter, semicolon is 59 in decimal
               li $t4, 0 #$t4 is the counter for the total characters (should not be more than 1000)
               li $t5, 0 #create a variable where the bytes will be stored
-	      #li $s6, 0# create a counter for the substring 
+	      li $s6, 0# create a counter for the substring 
 
               parasString:
              
                         beq $t4,1000, stop #when we have read all 1000 character stop
                         #lb $t5,$t4($a1)
                         add $t5, $t4, $a1 
-                        lb $t5, ($t5) #load character form string 
+                        lb $t5, 0($t1) #load character form string 
                         bne $t5, $t3, again  #if the character is not a semicolon jump to again
                         j prep
               
@@ -249,6 +251,7 @@ syscall
                                                mult $t5, $t8 #multiplying value by 32^3
                                                mflo $t1
                                                add $s5, $s5, $t1
+					       j final
                                      
                                      final:
                                                #sends sum back to sub_a
